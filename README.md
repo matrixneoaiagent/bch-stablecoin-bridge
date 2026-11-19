@@ -94,6 +94,15 @@ npm run test:evm
 # 12 passing tests (lock, duplicate guards, redeem, refund, timelocks, MockUSDC faucet)
 ```
 
+### Live On-Chain Chipnet Execution (Verified)
+The BCH leg has been deployed and redeemed on-chain on BCH Chipnet:
+- **Contract:** `bchtest:pw3npt2gsx3ygx0jtypgpn9qeqfng5z5jevw007aaes398jcg6js7ufdvkwfs`
+- **Funding TX:** [`97b806cec6280a6f51e2bcc0be4f65ea09f0d67c24bd9ce00e61253b87d97b2a`](https://chipnet.imaginary.cash/tx/97b806cec6280a6f51e2bcc0be4f65ea09f0d67c24bd9ce00e61253b87d97b2a) (5,000 sats test BCH locked)
+- **Redeem TX:** [`d9738b6df74024748e57f40773347cdee4bbd92ce0854429d37ac40ebba092bd`](https://chipnet.imaginary.cash/tx/d9738b6df74024748e57f40773347cdee4bbd92ce0854429d37ac40ebba092bd) (preimage secret published on-chain)
+- **Run live script:** `npm run demo:chipnet` (requires Chipnet wallet at `FC_WALLET` or `/tmp/opencode/foldingcash_chipnet/wallet.json`)
+
+*Note: EVM leg runs in local Hardhat node mode; we do not fabricate Base Sepolia transactions.*
+
 ### Run swap demo (local mode — no funded wallet needed)
 ```bash
 npm run demo

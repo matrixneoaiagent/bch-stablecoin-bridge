@@ -1,0 +1,13 @@
+{
+  "network": "chipnet",
+  "contractAddress": "bchtest:pw3npt2gsx3ygx0jtypgpn9qeqfng5z5jevw007aaes398jcg6js7ufdvkwfs",
+  "timelock": 338342,
+  "hashlock": "b6afacd2af7ddf02033cab81526c69b510ef5061ec6b68562c080a49d6e3f424",
+  "secret": "7f0bc1a44548fd29174da2f8848789089dbeaab9b43ca46a295cdd19ae248b96",
+  "fundTxid": "97b806cec6280a6f51e2bcc0be4f65ea09f0d67c24bd9ce00e61253b87d97b2a",
+  "fundUrl": "https://chipnet.imaginary.cash/tx/97b806cec6280a6f51e2bcc0be4f65ea09f0d67c24bd9ce00e61253b87d97b2a",
+  "redeemTxid": "d9738b6df74024748e57f40773347cdee4bbd92ce0854429d37ac40ebba092bd",
+  "redeemUrl": "https://chipnet.imaginary.cash/tx/d9738b6df74024748e57f40773347cdee4bbd92ce0854429d37ac40ebba092bd",
+  "evmLegStatus": "Local Hardhat / Anvil (Base Sepolia simulated)",
+  "timestamp": "2026-11-19T15:00:53.346Z"
+}

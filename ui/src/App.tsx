@@ -65,23 +65,23 @@ export default function App() {
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.location.search.includes('completed=1')) {
-      const secret = '411bdb32868c2537206507ffe0dcf4a8f50628eb09719934c74c59ecef6b8ad6'
-      const hashlock = '404cc091eb248933d65708438e25672cd4c9eecd92bc1ae931293401e1455718'
+      const secret = '7f0bc1a44548fd29174da2f8848789089dbeaab9b43ca46a295cdd19ae248b96'
+      const hashlock = 'b6afacd2af7ddf02033cab81526c69b510ef5061ec6b68562c080a49d6e3f424'
       const evmLockTx = '0xabababababababababababababababababababababababababababababababab'
       const evmHTLCAddr = '0xefefefefefefefefefefefefefefefefefefefef'
-      const bchHTLCAddr = 'bchtest:pvku4daq8vrv3gc7ut7cntw4jgzje7909n92jakc6xg9ta0ydkecq6e0rdzrv'
-      const bchFundTx = '38968127a4d2f3bf0ac4734ee3125dc011111111111111111111111111111111'
-      const bchRedeemTx = '9999999999999999999999999999999999999999999999999999999999999999'
+      const bchHTLCAddr = 'bchtest:pw3npt2gsx3ygx0jtypgpn9qeqfng5z5jevw007aaes398jcg6js7ufdvkwfs'
+      const bchFundTx = '97b806cec6280a6f51e2bcc0be4f65ea09f0d67c24bd9ce00e61253b87d97b2a'
+      const bchRedeemTx = 'd9738b6df74024748e57f40773347cdee4bbd92ce0854429d37ac40ebba092bd'
       const evmRedeemTx = '0xcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd'
       const swapId = '0x288acca5eb64dc5bf79999999999999999999999999999999999999999999999'
 
       setSteps([
         { id: 1, title: 'Generate secret + hashlock', detail: `Hashlock: ${truncate(hashlock, 32)}…`, status: 'done' },
-        { id: 2, title: 'Lock mUSDC in EVM HTLC', detail: `TX: ${truncate(evmLockTx, 24)} [LOCAL DEMO]`, status: 'done', txid: evmLockTx, explorerUrl: `https://sepolia.basescan.org/tx/${evmLockTx}` },
-        { id: 3, title: 'Fund BCH HTLC with test PUSD', detail: `HTLC: ${truncate(bchHTLCAddr, 24)} [Chipnet VM]`, status: 'done', txid: bchFundTx, explorerUrl: `https://chipnet.imaginary.cash/tx/${bchFundTx}` },
-        { id: 4, title: 'Initiator redeems BCH HTLC', detail: `Secret revealed on BCH: ${truncate(secret, 20)}…`, status: 'done', txid: bchRedeemTx, explorerUrl: `https://chipnet.imaginary.cash/tx/${bchRedeemTx}` },
-        { id: 5, title: 'Responder redeems EVM HTLC', detail: `TX: ${truncate(evmRedeemTx, 24)} mUSDC claimed`, status: 'done', txid: evmRedeemTx, explorerUrl: `https://sepolia.basescan.org/tx/${evmRedeemTx}` },
-        { id: 6, title: 'Atomic swap complete ✓', detail: 'Both chains settled ✓ Atomic swap succeeded', status: 'done' },
+        { id: 2, title: 'Lock mUSDC in EVM HTLC (Local Hardhat)', detail: `TX: ${truncate(evmLockTx, 24)} [EVM leg: local Hardhat / Anvil]`, status: 'done', txid: evmLockTx, explorerUrl: `https://sepolia.basescan.org/tx/${evmLockTx}` },
+        { id: 3, title: 'Fund BridgeHTLC on BCH Chipnet (LIVE ON-CHAIN)', detail: `TX: ${truncate(bchFundTx, 24)} [BCH leg: live Chipnet]`, status: 'done', txid: bchFundTx, explorerUrl: `https://chipnet.imaginary.cash/tx/${bchFundTx}` },
+        { id: 4, title: 'Redeem BridgeHTLC on BCH Chipnet (LIVE ON-CHAIN)', detail: `TX: ${truncate(bchRedeemTx, 24)} Secret revealed on-chain`, status: 'done', txid: bchRedeemTx, explorerUrl: `https://chipnet.imaginary.cash/tx/${bchRedeemTx}` },
+        { id: 5, title: 'Responder redeems EVM HTLC (Local Hardhat)', detail: `TX: ${truncate(evmRedeemTx, 24)} mUSDC claimed [local node]`, status: 'done', txid: evmRedeemTx, explorerUrl: `https://sepolia.basescan.org/tx/${evmRedeemTx}` },
+        { id: 6, title: 'Atomic swap complete ✓', detail: 'BCH leg: live Chipnet | EVM leg: local Hardhat mock', status: 'done' },
       ])
       setSwap({
         running: false,
