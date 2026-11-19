@@ -1,0 +1,21 @@
+{
+  "name": "bch-stablecoin-bridge-evm",
+  "version": "0.1.0",
+  "description": "Hardhat EVM contracts for the BCH Stablecoin Bridge (Base Sepolia + local Anvil)",
+  "license": "MIT",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "node": "hardhat node",
+    "deploy:local": "hardhat run scripts/deploy-local.js --network localhost",
+    "deploy:sepolia": "hardhat run scripts/deploy-sepolia.js --network baseSepolia"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "dotenv": "^18.0.10",
+    "hardhat": "^2.22.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.0"
+  }
+}

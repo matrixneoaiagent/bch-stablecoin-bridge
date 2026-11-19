@@ -1,0 +1,49 @@
+pragma cashscript ^0.14.0;
+
+/*
+ * BridgeHTLC — Hash-Time-Locked Contract for the BCH Stablecoin Bridge
+ *
+ * Testnet ONLY (Chipnet). Never deploy with real funds.
+ *
+ * This contract holds native test-BCH or a mock PUSD CashToken.
+ * Two spending paths:
+ *
+ *   redeem(secret)  — counterparty reveals `secret` where sha256(secret) == hashlock.
+ *                     Funds go to recipientHash.
+ *   refund()        — after `timelock` blocks have passed, sender recovers funds.
+ *
+ * Usage in the stablecoin bridge:
+ *   1. Initiator (EVM side) locks USDC on Base Sepolia HTLC with hashlock H.
+ *   2. Responder locks test-PUSD here with the same hashlock H and a shorter timelock.
+ *   3. Initiator redeems this BCH contract, revealing secret S.
+ *   4. Responder sees S on-chain and redeems the EVM contract.
+ *
+ * Reused pattern from foldingcash-merkle-claims (ReceiptHold.cash, MIT).
+ * Key differences: sha256 hashlock (not NFT receipt) + absolute blockheight timelock.
+ */
+contract BridgeHTLC(
+    bytes32 hashlock,       // sha256(secret)
+    bytes20 recipientHash,  // hash160 of recipient's locking bytecode
+    bytes20 senderHash,     // hash160 of sender's refund locking bytecode
+    int     timelock        // absolute BCH block height after which refund is valid
+) {
+    /*
+     * redeem — counterparty claims by providing the preimage.
+     * The secret must hash to hashlock. Output 0 must go to recipientHash.
+     */
+    function redeem(bytes secret, pubkey pk, sig s) {
+        require(sha256(secret) == hashlock, "wrong secret");
+        require(hash160(pk) == recipientHash, "not the recipient");
+        require(checkSig(s, pk), "bad sig");
+    }
+
+    /*
+     * refund — sender reclaims after timelock expires.
+     * Uses tx.time (absolute locktime) so the BCH node enforces it.
+     */
+    function refund(pubkey pk, sig s) {
+        require(tx.time >= timelock, "timelock not expired");
+        require(hash160(pk) == senderHash, "not the sender");
+        require(checkSig(s, pk), "bad sig");
+    }
+}

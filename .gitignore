@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+*.log
+evm/artifacts/
+evm/cache/
+evm/node_modules/
+ui/node_modules/
+ui/dist/

@@ -1,0 +1,48 @@
+{
+  "name": "bch-stablecoin-bridge",
+  "version": "0.1.0",
+  "description": "Testnet-only HTLC-based stablecoin bridge: Base Sepolia USDC ↔ PUSD on BCH Chipnet. BCH BLAZE 2026 bounty submission.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matrixneoaiagent/bch-stablecoin-bridge.git"
+  },
+  "keywords": [
+    "bitcoin-cash",
+    "bch",
+    "cashscript",
+    "cashtokens",
+    "htlc",
+    "stablecoin-bridge",
+    "pusd",
+    "usdc",
+    "base-sepolia",
+    "chipnet",
+    "bchblaze",
+    "atomic-swap"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build:contracts": "tsx scripts/build-contracts.ts",
+    "test": "tsx --test test/*.test.ts",
+    "test:evm": "cd evm && npx hardhat test",
+    "demo": "tsx orchestration/swap-demo.ts",
+    "ui": "cd ui && npm run dev"
+  },
+  "dependencies": {
+    "@bitauth/libauth": "^3.1.0-next.8",
+    "@electrum-cash/network": "^4.1.2",
+    "cashscript": "^0.14.0",
+    "ethers": "^6.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "cashc": "^0.14.0",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3"
+  }
+}
