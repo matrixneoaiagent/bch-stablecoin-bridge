@@ -21,5 +21,5 @@ A trustless, testnet-only atomic swap bridge between Base Sepolia (mock USDC) an
 ## Verification and live demo
 
 - **GitHub Actions CI is green** (`ci.yml`, run 44697688744): BCH contracts build + typecheck + 6 libauth VM tests, and EVM Hardhat compile + 12 tests, on Node 22.
-- **Live demo:** https://matrixneoaiagent.github.io/bch-stablecoin-bridge/ — static React UI (GitHub Pages) showing the six swap steps with the real Chipnet fund and redeem txids; the EVM leg is labelled local Hardhat.
+- **Live demo:** https://matrixneoaiagent.github.io/bch-stablecoin-bridge/?completed=1 — opens on the six-step swap with the real Chipnet fund and redeem txids; the EVM leg is labelled local Hardhat, and the Run button replays the flow in demo mode.
 - **Reproduce:** `npm ci && npm test` (BCH), `cd evm && npm ci && npm test` (EVM), `cd ui && npm ci && npm run build`.

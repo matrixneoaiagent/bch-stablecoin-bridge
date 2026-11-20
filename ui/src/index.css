@@ -49,6 +49,22 @@ body {
   font-size: 0.9rem;
 }
 
+.real-run-link {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.real-run-link a {
+  color: #22c55e;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.real-run-link a:hover {
+  text-decoration: underline;
+}
+
 .testnet-badge {
   display: inline-block;
   background: rgba(245,158,11,0.15);

@@ -201,6 +201,10 @@ export default function App() {
         <h1>⚡ BCH Stablecoin Bridge</h1>
         <p>Atomic HTLC swap: Base Sepolia mUSDC ↔ Chipnet mock PUSD</p>
         <div className="testnet-badge">⚠ TESTNET ONLY — NO REAL VALUE</div>
+        <p className="real-run-link">
+          <a href="?completed=1">View the real Chipnet fund &amp; redeem run →</a>
+          <span> · the Run button below replays the flow in demo mode</span>
+        </p>
       </div>
 
       {/* Chain overview */}
