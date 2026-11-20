@@ -17,3 +17,9 @@ A trustless, testnet-only atomic swap bridge between Base Sepolia (mock USDC) an
 **Orchestration & UI:** `orchestration/chipnet-live.ts` broadcasts the real on-chain Chipnet leg; `swap-demo.ts` runs the full end-to-end local swap. React/Vite UI with interactive step progression, live txid display, and clear leg labelling.
 
 **Repo:** https://github.com/matrixneoaiagent/bch-stablecoin-bridge — MIT license, full reproduction instructions. Testnet only.
+
+## Verification and live demo
+
+- **GitHub Actions CI is green** (`ci.yml`, run 44697688744): BCH contracts build + typecheck + 6 libauth VM tests, and EVM Hardhat compile + 12 tests, on Node 22.
+- **Live demo:** https://matrixneoaiagent.github.io/bch-stablecoin-bridge/ — static React UI (GitHub Pages) showing the six swap steps with the real Chipnet fund and redeem txids; the EVM leg is labelled local Hardhat.
+- **Reproduce:** `npm ci && npm test` (BCH), `cd evm && npm ci && npm test` (EVM), `cd ui && npm ci && npm run build`.
