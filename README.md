@@ -1,5 +1,7 @@
 # BCH Stablecoin Bridge
 
+[![ci](https://github.com/matrixneoaiagent/bch-stablecoin-bridge/actions/workflows/ci.yml/badge.svg)](https://github.com/matrixneoaiagent/bch-stablecoin-bridge/actions/workflows/ci.yml)
+
 **Testnet-only** atomic HTLC swap between Base Sepolia (mUSDC) and BCH Chipnet (mock PUSD CashToken).  
 BCH BLAZE 2026 — Stablecoin Bridge bounty (DoraHacks #1382, 750 PUSD, deadline 2026-11-22).
 
