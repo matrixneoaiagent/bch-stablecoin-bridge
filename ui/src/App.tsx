@@ -62,25 +62,23 @@ const INITIAL_STEPS: SwapStep[] = [
 export default function App() {
   const [steps, setSteps] = useState<SwapStep[]>(INITIAL_STEPS)
   const [swap, setSwap]   = useState<SwapState>({ running: false, done: false })
+  const [recorded, setRecorded] = useState(false)
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.location.search.includes('completed=1')) {
+      setRecorded(true)
       const secret = '7f0bc1a44548fd29174da2f8848789089dbeaab9b43ca46a295cdd19ae248b96'
       const hashlock = 'b6afacd2af7ddf02033cab81526c69b510ef5061ec6b68562c080a49d6e3f424'
-      const evmLockTx = '0xabababababababababababababababababababababababababababababababab'
-      const evmHTLCAddr = '0xefefefefefefefefefefefefefefefefefefefef'
       const bchHTLCAddr = 'bchtest:pw3npt2gsx3ygx0jtypgpn9qeqfng5z5jevw007aaes398jcg6js7ufdvkwfs'
       const bchFundTx = '97b806cec6280a6f51e2bcc0be4f65ea09f0d67c24bd9ce00e61253b87d97b2a'
       const bchRedeemTx = 'd9738b6df74024748e57f40773347cdee4bbd92ce0854429d37ac40ebba092bd'
-      const evmRedeemTx = '0xcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd'
-      const swapId = '0x288acca5eb64dc5bf79999999999999999999999999999999999999999999999'
 
       setSteps([
         { id: 1, title: 'Generate secret + hashlock', detail: `Hashlock: ${truncate(hashlock, 32)}…`, status: 'done' },
-        { id: 2, title: 'Lock mUSDC in EVM HTLC (Local Hardhat)', detail: `TX: ${truncate(evmLockTx, 24)} [EVM leg: local Hardhat / Anvil]`, status: 'done', txid: evmLockTx, explorerUrl: `https://sepolia.basescan.org/tx/${evmLockTx}` },
+        { id: 2, title: 'Lock mUSDC in EVM HTLC (local Hardhat)', detail: '100 mUSDC locked on a local Hardhat node — no public explorer entry', status: 'done' },
         { id: 3, title: 'Fund BridgeHTLC on BCH Chipnet (LIVE ON-CHAIN)', detail: `TX: ${truncate(bchFundTx, 24)} [BCH leg: live Chipnet]`, status: 'done', txid: bchFundTx, explorerUrl: `https://chipnet.imaginary.cash/tx/${bchFundTx}` },
         { id: 4, title: 'Redeem BridgeHTLC on BCH Chipnet (LIVE ON-CHAIN)', detail: `TX: ${truncate(bchRedeemTx, 24)} Secret revealed on-chain`, status: 'done', txid: bchRedeemTx, explorerUrl: `https://chipnet.imaginary.cash/tx/${bchRedeemTx}` },
-        { id: 5, title: 'Responder redeems EVM HTLC (Local Hardhat)', detail: `TX: ${truncate(evmRedeemTx, 24)} mUSDC claimed [local node]`, status: 'done', txid: evmRedeemTx, explorerUrl: `https://sepolia.basescan.org/tx/${evmRedeemTx}` },
+        { id: 5, title: 'Responder redeems EVM HTLC (local Hardhat)', detail: 'mUSDC claimed on the local Hardhat node — no public explorer entry', status: 'done' },
         { id: 6, title: 'Atomic swap complete ✓', detail: 'BCH leg: live Chipnet | EVM leg: local Hardhat mock', status: 'done' },
       ])
       setSwap({
@@ -88,12 +86,8 @@ export default function App() {
         done: true,
         secret,
         hashlock,
-        evmHTLCAddress: evmHTLCAddr,
         bchHTLCAddress: bchHTLCAddr,
-        evmLockTxid: evmLockTx,
         bchRedeemTxid: bchRedeemTx,
-        evmRedeemTxid: evmRedeemTx,
-        swapId,
       })
     }
   }, [])
@@ -103,6 +97,7 @@ export default function App() {
   }, [])
 
   const runDemo = useCallback(async () => {
+    setRecorded(false)
     setSwap({ running: true, done: false })
     setSteps(INITIAL_STEPS)
 
@@ -128,8 +123,7 @@ export default function App() {
       updateStep(2, {
         status: 'done',
         txid: evmLockTx,
-        explorerUrl: `https://sepolia.basescan.org/tx/${evmLockTx}`,
-        detail: `TX: ${truncate(evmLockTx, 24)}  [DEMO MODE — simulated]`,
+        detail: `TX: ${truncate(evmLockTx, 24)}  [simulated — no explorer link]`,
       })
       setSwap(s => ({ ...s, evmHTLCAddress: evmHTLCAddr, evmLockTxid: evmLockTx, swapId }))
       await sleep(400)
@@ -142,8 +136,7 @@ export default function App() {
       updateStep(3, {
         status: 'done',
         txid: bchFundTx,
-        explorerUrl: `https://chipnet.imaginary.cash/tx/${bchFundTx}`,
-        detail: `HTLC: ${truncate(bchHTLCAddr, 24)}  [DEMO MODE — simulated]`,
+        detail: `HTLC: ${truncate(bchHTLCAddr, 24)}  [simulated — no explorer link]`,
       })
       setSwap(s => ({ ...s, bchHTLCAddress: bchHTLCAddr }))
       await sleep(400)
@@ -155,8 +148,7 @@ export default function App() {
       updateStep(4, {
         status: 'done',
         txid: bchRedeemTx,
-        explorerUrl: `https://chipnet.imaginary.cash/tx/${bchRedeemTx}`,
-        detail: `Secret revealed on BCH: ${truncate(secret, 20)}…  [DEMO]`,
+        detail: `Secret revealed on BCH: ${truncate(secret, 20)}…  [simulated]`,
       })
       setSwap(s => ({ ...s, bchRedeemTxid: bchRedeemTx }))
       await sleep(400)
@@ -168,8 +160,7 @@ export default function App() {
       updateStep(5, {
         status: 'done',
         txid: evmRedeemTx,
-        explorerUrl: `https://sepolia.basescan.org/tx/${evmRedeemTx}`,
-        detail: `TX: ${truncate(evmRedeemTx, 24)}  mUSDC claimed  [DEMO]`,
+        detail: `TX: ${truncate(evmRedeemTx, 24)}  mUSDC claimed  [simulated]`,
       })
       setSwap(s => ({ ...s, evmRedeemTxid: evmRedeemTx }))
       await sleep(400)
@@ -185,6 +176,7 @@ export default function App() {
   }, [updateStep])
 
   const reset = () => {
+    setRecorded(false)
     setSteps(INITIAL_STEPS)
     setSwap({ running: false, done: false })
   }
@@ -202,8 +194,17 @@ export default function App() {
         <p>Atomic HTLC swap: Base Sepolia mUSDC ↔ Chipnet mock PUSD</p>
         <div className="testnet-badge">⚠ TESTNET ONLY — NO REAL VALUE</div>
         <p className="real-run-link">
-          <a href="?completed=1">View the real Chipnet fund &amp; redeem run →</a>
-          <span> · the Run button below replays the flow in demo mode</span>
+          {recorded ? (
+            <>
+              <a href="./">← Back to the animated demo</a>
+              <span> · this view shows the recorded Chipnet run from 19 Nov 2026</span>
+            </>
+          ) : (
+            <>
+              <a href="?completed=1">View the real Chipnet fund &amp; redeem run →</a>
+              <span> · the Run button below replays the flow in demo mode</span>
+            </>
+          )}
         </p>
       </div>
 
@@ -287,18 +288,22 @@ export default function App() {
           </div>
           <div className="info-card">
             <h3>Contract Addresses</h3>
-            <div className="info-row">
-              <span>EVM HTLC</span>
-              <span>{truncate(swap.evmHTLCAddress ?? '', 18)}</span>
-            </div>
+            {swap.evmHTLCAddress && (
+              <div className="info-row">
+                <span>EVM HTLC</span>
+                <span>{truncate(swap.evmHTLCAddress, 18)}</span>
+              </div>
+            )}
             <div className="info-row">
               <span>BCH HTLC</span>
               <span>{truncate(swap.bchHTLCAddress ?? '', 18)}</span>
             </div>
-            <div className="info-row">
-              <span>Swap ID</span>
-              <span>{truncate(swap.swapId ?? '', 18)}</span>
-            </div>
+            {swap.swapId && (
+              <div className="info-row">
+                <span>Swap ID</span>
+                <span>{truncate(swap.swapId, 18)}</span>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -317,9 +322,21 @@ export default function App() {
           shorter (1 h vs 2 h) so the responder can always refund safely first.
         </p>
         <p style={{ marginTop: 8 }}>
-          <strong>Demo mode:</strong> all txids are simulated. For live testnet operation
-          run <code>npm run demo</code> (requires funded Chipnet + Base Sepolia wallets) or
-          <code> npx hardhat node</code> + <code>npm run demo</code> for a local end-to-end run.
+          {recorded ? (
+            <>
+              <strong>Recorded run:</strong> the two BCH txids above are real Chipnet
+              transactions — the explorer links open them. The EVM leg ran on a local
+              Hardhat node and has no public explorer entry. The Run button replays the
+              flow with simulated txids.
+            </>
+          ) : (
+            <>
+              <strong>Demo mode:</strong> this animation generates simulated txids and
+              broadcasts nothing; simulated steps carry no explorer link. For the real
+              on-chain run open <a href="?completed=1">the recorded Chipnet run →</a>, or
+              run <code>npm run demo</code> locally (requires funded testnet wallets).
+            </>
+          )}
         </p>
       </div>
     </div>
